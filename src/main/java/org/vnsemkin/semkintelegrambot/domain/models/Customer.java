@@ -12,7 +12,7 @@ import lombok.Setter;
 public final class Customer {
     private final long tgId;
     private final String firstName;
-    private final String userName;
+    private final String username;
     private String email;
     private String password;
 }

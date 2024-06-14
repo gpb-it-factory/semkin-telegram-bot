@@ -25,7 +25,7 @@ public class TransferMoneyService implements MessageHandler {
     private final static String USER_OR_ACCOUNT_NOT_EXIST = "Не найдет пользователь или аккаунт!";
     private final static String UNKNOWN_ERROR = "Неизвестная ошибка";
     private final static String TRANSFER_SUCCESSFUL = "Деньги успешно переведены!";
-    private final static String DEFAULT_ACCOUNT_NAME = "Акционный";
+    private final static String DEFAULT_ACCOUNT_NAME = "Дебетовый";
     private final static String NEW_LINE = "\n";
     private final Map<Long, String> messageHandlerServiceMap;
     private final TgSenderInterface sender;

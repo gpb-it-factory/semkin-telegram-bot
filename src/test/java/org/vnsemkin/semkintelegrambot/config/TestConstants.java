@@ -3,15 +3,6 @@ package org.vnsemkin.semkintelegrambot.config;
 import java.math.BigDecimal;
 
 public class TestConstants {
-    public static final String INVALID_USERNAME = "test!";
-    public static final String VALID_USERNAME = "test";
-    public static final String INVALID_AMOUNT = "500asas";
-    public static final String INVALID_DATA = "Invalid data";
-    public static final String INVALID_TRANSFER_REQUEST = "Неправильный формат!";
-    public static final String INVALID_TRANSFER_USERNAME = "test! 500";
-    public static final String INVALID_TRANSFER_AMOUNT = "test 500asas";
-    public static final String DEFAULT_ACCOUNT_NAME = "Акционный";
-    public static final String USER_OR_ACCOUNT_NOT_EXIST = "Не найдет пользователь или аккаунт!";
     public static final String INPUT_EMAIL = "Введите email";
     public static final String NEW_LINE = "\n";
     public static final String EMPTY_LINE = "";
@@ -44,8 +35,4 @@ public class TestConstants {
         Добро пожаловать в Мини-Банк.
         Для регистрации пожалуйста !
         """;
-    public static final String TRANSFER_REQUEST = "Введите запрос на перевод в формате :" + NEW_LINE +
-        "[TelegramUsername] [amount]" + NEW_LINE +
-        "Пример: " + NEW_LINE +
-        "ivanov 500";
 }
