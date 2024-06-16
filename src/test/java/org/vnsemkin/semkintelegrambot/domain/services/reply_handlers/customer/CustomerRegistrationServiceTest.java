@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -13,12 +14,17 @@ import org.vnsemkin.semkintelegrambot.application.constants.CommandToServiceMap;
 import org.vnsemkin.semkintelegrambot.application.dtos.CustomerInfoResponse;
 import org.vnsemkin.semkintelegrambot.application.externals.AppWebClient;
 import org.vnsemkin.semkintelegrambot.application.externals.TgSenderInterface;
+import org.vnsemkin.semkintelegrambot.domain.models.Customer;
 import org.vnsemkin.semkintelegrambot.domain.models.Result;
+import org.vnsemkin.semkintelegrambot.domain.utils.AppValidator;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -36,6 +42,7 @@ import static org.vnsemkin.semkintelegrambot.config.TestConstants.CUSTOMER_PREFI
 import static org.vnsemkin.semkintelegrambot.config.TestConstants.DELIMITER_LINE;
 import static org.vnsemkin.semkintelegrambot.config.TestConstants.EMAIL;
 import static org.vnsemkin.semkintelegrambot.config.TestConstants.EMAIL_PREFIX;
+import static org.vnsemkin.semkintelegrambot.config.TestConstants.EMPTY_LINE;
 import static org.vnsemkin.semkintelegrambot.config.TestConstants.FIRSTNAME;
 import static org.vnsemkin.semkintelegrambot.config.TestConstants.INPUT_EMAIL;
 import static org.vnsemkin.semkintelegrambot.config.TestConstants.NEW_LINE;
@@ -46,12 +53,15 @@ import static org.vnsemkin.semkintelegrambot.config.TestConstants.USERNAME_PREFI
 import static org.vnsemkin.semkintelegrambot.config.TestConstants.USER_ID;
 import static org.vnsemkin.semkintelegrambot.config.TestConstants.UUID;
 
+
 @ExtendWith(MockitoExtension.class)
 class CustomerRegistrationServiceTest {
     @Mock
     private TgSenderInterface sender;
     @Mock
     private AppWebClient appWebClient;
+    @Mock
+    private AppValidator validator;
     @Mock
     private Map<Long, String> messageHandlerServiceMap;
     @InjectMocks
@@ -113,17 +123,36 @@ class CustomerRegistrationServiceTest {
         verify(messageHandlerServiceMap).put(eq(CHAT_ID), eq(CommandToServiceMap.REGISTER.value));
 
         SendMessage capturedMessage = messageCaptor.getValue();
-        assertEquals(createWelcomeMessage(CHAT_ID, user.getFirstName()).getText(), capturedMessage.getText());
+        assertEquals(createWelcomeMessage(user.getFirstName()).getText(), capturedMessage.getText());
     }
 
-    private SendMessage createWelcomeMessage(long chatId, String firstName) {
+    @Test
+    void handle_customerWithoutEmail() throws NoSuchMethodException,
+        InvocationTargetException, IllegalAccessException {
+        Message message = createMessage();
+        Customer customer = new Customer(USER_ID, FIRSTNAME, USERNAME);
+        Result<Boolean, String> result = Result.error(EMPTY_LINE);
+
+        when(validator.validateEmail(anyString())).thenReturn(result);
+
+        Method method = CustomerRegistrationService.class
+            .getDeclaredMethod("handleUserRegistrationState",
+                Message.class, Customer.class);
+        method.setAccessible(true);
+        method.invoke(customerRegistrationService, message, customer);
+
+        verify(sender).sendText(CHAT_ID, EMPTY_LINE + NEW_LINE + INPUT_EMAIL);
+    }
+
+
+    private SendMessage createWelcomeMessage(String firstName) {
         String welcomeMessage = String.format(BOLD_START_TAG +
             REGISTER_INFO +
             BOLD_STOP_TAG +
             NEW_LINE +
             INPUT_EMAIL +
             ARROW_EMOJI, firstName);
-        return new SendMessage(Long.toString(chatId), welcomeMessage);
+        return new SendMessage(Long.toString(org.vnsemkin.semkintelegrambot.config.TestConstants.CHAT_ID), welcomeMessage);
     }
 
     private String customerInfoMessage(String account, CustomerInfoResponse response) {
@@ -139,9 +168,10 @@ class CustomerRegistrationServiceTest {
         Message message = mock(Message.class);
         User user = mock(User.class);
 
-        when(message.getChatId()).thenReturn(CHAT_ID);
-        when(message.getFrom()).thenReturn(user);
-        when(user.getId()).thenReturn(USER_ID);
+        Mockito.lenient().when(message.getChatId()).thenReturn(CHAT_ID);
+        Mockito.lenient().when(message.getFrom()).thenReturn(user);
+        Mockito.lenient().when(user.getId()).thenReturn(USER_ID);
+        Mockito.lenient().when(message.getText()).thenReturn(EMPTY_LINE);
         return message;
     }
 }

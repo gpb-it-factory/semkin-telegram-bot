@@ -56,7 +56,6 @@ public final class CustomerRegistrationService implements MessageHandler {
     private final AppWebClient appWebClient;
     private final AppMapper mapper = AppMapper.INSTANCE;
     private final ThreadLocal<Customer> customerLocal = new ThreadLocal<>();
-    ;
 
     public void startRegistration(@NonNull Message message) {
         long chatId = message.getChatId();
@@ -80,7 +79,10 @@ public final class CustomerRegistrationService implements MessageHandler {
 
     @Override
     public void handle(@NonNull Message message) {
-        handleUserRegistrationState(message, customerLocal.get());
+        Customer customer = customerLocal.get();
+        if (customer != null) {
+            handleUserRegistrationState(message, customer);
+        }
     }
 
     private SendMessage createWelcomeMessage(long chatId, String firstName) {
