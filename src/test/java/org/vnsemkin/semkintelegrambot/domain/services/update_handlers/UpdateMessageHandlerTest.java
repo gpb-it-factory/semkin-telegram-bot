@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/test/java/org/vnsemkin/semkintelegrambot/domain/services/update_handlers/UpdateMessageHandlerTest.java
 package org.vnsemkin.semkintelegrambot.domain.services.update_handlers;
-========
-package org.vnsemkin.semkintelegrambot;
->>>>>>>> a187cb8 (Задание 7,8,9. Добавлена функциональность создания счёта, запроса баланса, перевода.):src/test/java/org/vnsemkin/semkintelegrambot/UpdateMessageHandlerTest.java
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
