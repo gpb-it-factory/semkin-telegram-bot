@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.vnsemkin.semkintelegrambot.config.TestConstants.*;
 
-public class AccountInfoServerTest {
+public class AccountInfoServiceTest {
 
     @Mock
     private TgSenderInterface sender;
@@ -33,7 +33,7 @@ public class AccountInfoServerTest {
     }
 
     @Test
-    void handle_Success() {
+    void shouldReturnAccountInfo_onResultSuccess() {
         Message message = createMessage();
         AccountDto accountDto = new AccountDto(UUID, ACCOUNT_NAME, BIG_DECIMAL_ACCOUNT_BALANCE);
         Result<AccountDto, String> result = Result.success(accountDto);
@@ -48,7 +48,7 @@ public class AccountInfoServerTest {
     }
 
     @Test
-    void handle_Error() {
+    void shouldReturnAccountNotFound_onResultError() {
         Message message = createMessage();
         Result<AccountDto, String> result = Result.error(ACCOUNT_NO_INFO);
 

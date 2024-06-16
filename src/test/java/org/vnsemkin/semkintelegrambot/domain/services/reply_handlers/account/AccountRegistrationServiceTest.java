@@ -38,7 +38,7 @@ public class AccountRegistrationServiceTest {
     }
 
     @Test
-    public void handle_Success() {
+    public void shouldRegisterAccount_onResultSuccess() {
         AccountRegistrationResponse response =
             new AccountRegistrationResponse(ACCOUNT_NAME, BIG_DECIMAL_ACCOUNT_BALANCE, EMPTY_LINE);
         Long chatId = createMessage().getChatId();
@@ -53,7 +53,7 @@ public class AccountRegistrationServiceTest {
     }
 
     @Test
-    public void handle_Error() {
+    public void shouldReturnMessage_onResultError() {
         long chatId = createMessage().getChatId();
         Result<AccountRegistrationResponse, String> result = Result.error(SMT_WRONG);
 
