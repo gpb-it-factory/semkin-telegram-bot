@@ -1,0 +1,16 @@
+# Spring
+spring.application.name: "semkin-telegram-bot"
+middle-service.base-url: "http://middle-service:8082"
+server.port: 8081
+
+# Telegram
+telegram.gpb-bot.name: "GPB IT Factory Backend 2024"
+telegram.gpb-bot.token: ${TELEGRAM_GPB_BOT_TOKEN}
+
+
+# Datasource
+spring.datasource.url: jdbc:postgresql://gpb-postgres:5432/gpb
+
+# FlyWay
+spring.flyway.url: jdbc:postgresql://gpb-postgres:5432/gpb
+spring.flyway.locations: classpath:db/migration
