@@ -70,7 +70,7 @@ public class AppWebClientImpTest extends SemkinTelegramBotApplicationTests {
         assertTrue(result.isSuccess());
         assertTrue(result.getData().isPresent());
         assertEquals(result.getData().get().firstName(), customerDto.firstName());
-        assertEquals(result.getData().get().username(), customerDto.username());
+        assertEquals(result.getData().get().userName(), customerDto.userName());
         assertEquals(result.getData().get().email(), customerDto.email());
         assertEquals(result.getData().get().password(), customerDto.password());
     }
