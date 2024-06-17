@@ -32,7 +32,7 @@ public class AppMapperTest {
         assertNotNull(customerDto);
         assertEquals(TG_ID, customerDto.tgId());
         assertEquals(NAME, customerDto.firstName());
-        assertEquals(TG_USERNAME, customerDto.username());
+        assertEquals(TG_USERNAME, customerDto.userName());
         assertEquals(EMAIL, customerDto.email());
         assertEquals(PASSWORD, customerDto.password());
     }
