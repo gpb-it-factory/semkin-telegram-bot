@@ -2,7 +2,6 @@ version: '3.8'
 name: gpb
 services:
   telegram-bot:
-#    image: semkin/telegram-bot
     container_name: telegram-bot
     build:
       context: ../
@@ -18,13 +17,14 @@ services:
           - telegram-bot
 
   middle-service:
-#    image: semkin/middle-service
     container_name: middle-service
     build:
       context: ../../semkin-middle-service
       dockerfile: Dockerfile
     env_file:
       - middle-service.env
+    depends_on:
+      - gpb-postgres
     restart: always
     ports:
       - "8082:8082"
@@ -40,7 +40,7 @@ services:
     env_file:
       - postgres-secrets.env
     volumes:
-      - ../../semkin-middle-service/src/main/resources/db/migration:/docker-entrypoint-initdb.d
+      - ./db:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data
     networks:
       gpb:
