@@ -133,6 +133,8 @@ public final class CustomerRegistrationService implements MessageHandler {
             appWebClient.registerCustomer(mapper.toDto(customer));
         String message = registrationResult.isSuccess() ?
             REG_SUCCESS : handleRegistrationError(registrationResult).getError().orElse(SMT_WRG);
+
+
         sender.sendText(chatId, message);
         cleanupRegistrationMaps(chatId);
     }
