@@ -160,7 +160,7 @@ class CustomerRegistrationServiceTest {
             CUSTOMER_ALREADY_REGISTER + NEW_LINE +
             DELIMITER_LINE + NEW_LINE +
             EMAIL_PREFIX + response.email() + NEW_LINE +
-            USERNAME_PREFIX + response.username() + NEW_LINE +
+            USERNAME_PREFIX + response.userName() + NEW_LINE +
             ACCOUNT_PREFIX + account + NEW_LINE;
     }
 
