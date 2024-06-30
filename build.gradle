@@ -31,8 +31,6 @@ ext {
 }
 
 dependencies {
-	implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
-	implementation 'org.glassfish.jersey.containers:jersey-container-servlet:3.1.7'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator:3.3.1'
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config:4.1.2'
@@ -44,6 +42,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.glassfish.jersey.containers:jersey-container-servlet:2.35'
 }
 
 tasks.named('test') {
