@@ -1,4 +1,4 @@
 # Spring
 spring:
-  application.name: "semkin-telegram-bot"
+  application.name: telegram-bot
   config.import: "optional:configserver:http://localhost:8099"
